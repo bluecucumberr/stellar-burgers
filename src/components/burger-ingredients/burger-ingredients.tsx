@@ -11,6 +11,7 @@ export const BurgerIngredients: FC = () => {
   const sauces = [];
 
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
+
   const titleBunRef = useRef<HTMLHeadingElement>(null);
   const titleMainRef = useRef<HTMLHeadingElement>(null);
   const titleSaucesRef = useRef<HTMLHeadingElement>(null);
