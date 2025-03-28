@@ -6,7 +6,7 @@ import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC, useEffect } from 'react';
-import { ingredientsSelectors } from '../../services/slice/ingredients/ingredientsSlice';
+import { ingredientsSelectors } from '../../services/slice/ingredientsSlice';
 import { useDispatch } from 'react-redux';
 import { fetchIngredients } from '../../services/thunks';
 

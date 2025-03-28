@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 import { RootState } from 'src/services/store';
-import { fetchIngredients } from '../../thunks';
+import { fetchIngredients } from '../thunks';
 
 type IngredientsState = {
   ingredients: TIngredient[];
@@ -49,5 +49,3 @@ export const ingredientsSelectors = {
 //   ...ingredientsSlice.actions,
 //   fetchIngredients
 // };
-
-export default ingredientsSlice;
