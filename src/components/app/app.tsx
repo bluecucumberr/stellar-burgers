@@ -11,18 +11,76 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRoute';
+import { getCookie } from '../../utils/cookie';
+import { fetchUser } from '../../services/thunks';
+import { useEffect } from 'react';
+import { useDispatch } from '../../services/store';
+import { UnknownAction, Dispatch } from '@reduxjs/toolkit';
+import { TIngredient, TOrder } from '@utils-types';
+import { ThunkDispatch } from 'redux-thunk';
+import { ConstructorState } from 'src/services/slice/burgerConstructorSlice';
+import { UserState } from 'src/services/slice/userSlice';
 
 const App = () => {
-  function handleCloseModal(): void {
-    throw new Error('Function not implemented.');
-  }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleCloseModal = () => {
+    navigate(-1);
+  };
 
   const location = useLocation();
-  const backgroundLocation = location.state?.backgroundLocation;
+  const backgroundLocation = location.state?.background;
+
+  const checkAuthOnLoad = async (
+    dispatch: ThunkDispatch<
+      {
+        ingredients: {
+          ingredients: TIngredient[];
+          isLoading: boolean;
+          error: string | null;
+        };
+        'burger-constructor': ConstructorState;
+        order: {
+          infoOrder: TOrder | null;
+          newOrder: TOrder | null;
+          requestStatus: 'idle' | 'loading' | 'success' | 'failed';
+        };
+        feed: {
+          orders: TOrder[];
+          total: number;
+          totalToday: number;
+          requestStatus: 'idle' | 'loading' | 'success' | 'failed';
+        };
+        user: UserState;
+        'profile-orders': {
+          orders: TOrder[];
+          requestStatus: 'idle' | 'loading' | 'success' | 'failed';
+        };
+      },
+      undefined,
+      UnknownAction
+    > &
+      Dispatch<UnknownAction>
+  ) => {
+    const accessToken = getCookie('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if (accessToken && refreshToken) {
+      try {
+        await dispatch(fetchUser());
+      } catch (error) {
+        console.error('Ошибка при восстановлении авторизации:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkAuthOnLoad(dispatch);
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
@@ -33,7 +91,7 @@ const App = () => {
         <Route
           path='/login'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <Login />
             </ProtectedRoute>
           }
@@ -41,7 +99,7 @@ const App = () => {
         <Route
           path='/register'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <Register />
             </ProtectedRoute>
           }
@@ -49,7 +107,7 @@ const App = () => {
         <Route
           path='/forgot-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <ForgotPassword />
             </ProtectedRoute>
           }
@@ -57,7 +115,7 @@ const App = () => {
         <Route
           path='/reset-password'
           element={
-            <ProtectedRoute>
+            <ProtectedRoute isPublic>
               <ResetPassword />
             </ProtectedRoute>
           }
@@ -93,7 +151,7 @@ const App = () => {
           <Route
             path='/ingredients/:id'
             element={
-              <Modal title='Детали заказа' onClose={handleCloseModal}>
+              <Modal title='Детали ингредиента' onClose={handleCloseModal}>
                 <IngredientDetails />
               </Modal>
             }
@@ -101,9 +159,11 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='Детали заказа' onClose={handleCloseModal}>
-                <OrderInfo />
-              </Modal>
+              <ProtectedRoute>
+                <Modal title='История заказа' onClose={handleCloseModal}>
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
             }
           />
         </Routes>

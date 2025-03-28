@@ -59,5 +59,9 @@ export const constructorSelectors = {
   getIngredients: (state: { 'burger-constructor': ConstructorState }) =>
     state['burger-constructor'].ingredients,
   getBun: (state: { 'burger-constructor': ConstructorState }) =>
-    state['burger-constructor'].bun
+    state['burger-constructor'].bun,
+  getConstructorItems: (state: { 'burger-constructor': ConstructorState }) => ({
+    bun: state['burger-constructor'].bun,
+    ingredients: state['burger-constructor'].ingredients
+  })
 };

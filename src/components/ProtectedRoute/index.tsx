@@ -1,6 +1,8 @@
+import { Preloader } from '@ui';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { userSelectors } from '../../services/slice/userSlice';
+import { useAppSelector, useSelector } from '../../services/store';
 
 type ProtectedRouteProps = {
   isPublic?: boolean;
@@ -9,8 +11,22 @@ type ProtectedRouteProps = {
 
 export const ProtectedRoute = ({ children, isPublic }: ProtectedRouteProps) => {
   const location = useLocation();
-  // const user = useSelector(getUser);
-  // const isAuthChecked = useSelector(getIsAuthChecked);
+  const user = useAppSelector(userSelectors.selectUser);
+  const isAuthChecked = useAppSelector(userSelectors.selectUserCheck);
+  const loginRequest = useSelector((state) => state.user.data);
+
+  if (!isAuthChecked && loginRequest) {
+    return <Preloader />;
+  }
+
+  if (isPublic && user) {
+    const from = location.state?.from?.pathname || '/profile';
+    return <Navigate to={from} />;
+  }
+
+  if (!isPublic && !user) {
+    return <Navigate to='/login' state={{ from: location }} />;
+  }
 
   return children;
 };

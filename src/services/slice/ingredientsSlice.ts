@@ -45,7 +45,7 @@ export const ingredientsSelectors = {
   getError: (state: RootState) => state.ingredients.error
 };
 
-// export const ingredientsActions = {
-//   ...ingredientsSlice.actions,
-//   fetchIngredients
-// };
+export const ingredientsActions = {
+  ...ingredientsSlice.actions,
+  fetchIngredients
+};
