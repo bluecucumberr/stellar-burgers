@@ -1,15 +1,15 @@
-import { AppDispatch, useSelector } from '../../services/store';
+import { useSelector } from '../../services/store';
 import styles from './constructor-page.module.css';
 import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC, useEffect } from 'react';
 import { ingredientsSelectors } from '../../services/slice/ingredientsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../services/thunks';
 
 export const ConstructorPage: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchIngredients());

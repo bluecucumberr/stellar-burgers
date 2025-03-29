@@ -1,18 +1,18 @@
 import { FC, useCallback, useMemo, useState } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { AppDispatch, useSelector } from '../../services/store';
+import { useSelector } from '../../services/store';
 import {
   burgerConstructorActions,
   constructorSelectors
 } from '../../services/slice/burgerConstructorSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { orderActions, orderSelectors } from '../../services/slice/orderSlice';
 import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -1,14 +1,13 @@
 import { FC, SyntheticEvent, useCallback, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { feedActions, feedSelectors } from '../../services/slice/feedSlice';
 import { fetchIngredients } from '../../services/thunks';
 import { orderSelectors } from '../../services/slice/orderSlice';
-import { AppDispatch } from 'src/services/store';
 
 export const Feed: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const { fetchOrders } = feedActions;
   const orders = useSelector(feedSelectors.getOrders);
   const requestStatus = useSelector(orderSelectors.selectOrderStatus);
