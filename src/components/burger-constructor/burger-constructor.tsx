@@ -1,24 +1,32 @@
-import { FC, useMemo } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { useSelector } from '../../services/store';
+import {
+  burgerConstructorActions,
+  constructorSelectors
+} from '../../services/slice/burgerConstructorSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from '../../services/store';
+import { orderActions, orderSelectors } from '../../services/slice/orderSlice';
+import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const orderRequest = false;
+  const ingredients = useSelector(constructorSelectors.getIngredients);
+  const bun = useSelector(constructorSelectors.getBun);
 
-  const orderModalData = null;
+  const requestStatus = useSelector(orderSelectors.selectOrderStatus);
+  const newOrder = useSelector(orderSelectors.selectNewOrder);
 
-  const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
-  };
-  const closeOrderModal = () => {};
+  const [isOrderModalOpen, setOrderModalOpen] = useState(false);
+
+  const isLoading = requestStatus === 'loading';
+
+  const constructorItems = { bun, ingredients };
 
   const price = useMemo(
     () =>
@@ -30,14 +38,37 @@ export const BurgerConstructor: FC = () => {
     [constructorItems]
   );
 
-  return null;
+  const onOrderClick = useCallback(() => {
+    if (!bun || isLoading) return;
+
+    const accessToken = getCookie('accessToken');
+    if (!accessToken) {
+      navigate('/login', { state: { from: location.pathname } });
+      return;
+    }
+
+    const ingredientIds = [
+      bun._id,
+      ...ingredients.map((ingredient) => ingredient._id),
+      bun._id
+    ];
+
+    dispatch(orderActions.createOrder(ingredientIds));
+    setOrderModalOpen(true);
+  }, [bun, ingredients, isLoading, navigate, location.pathname, dispatch]);
+
+  const closeOrderModal = useCallback(() => {
+    setOrderModalOpen(false);
+    dispatch(orderActions.resetOrderState());
+    dispatch(burgerConstructorActions.clearConstructor());
+  }, [dispatch]);
 
   return (
     <BurgerConstructorUI
       price={price}
-      orderRequest={orderRequest}
       constructorItems={constructorItems}
-      orderModalData={orderModalData}
+      orderRequest={isLoading}
+      orderModalData={isOrderModalOpen ? newOrder : null}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
     />
