@@ -1,8 +1,9 @@
 import { Preloader } from '@ui';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { userSelectors } from '../../services/slice/userSlice';
-import { useAppSelector } from '../../services/store';
+import { useAppSelector, useDispatch } from '../../services/store';
+import { fetchUser } from '../../services/thunks';
 
 type ProtectedRouteProps = {
   isPublic?: boolean;
@@ -13,6 +14,13 @@ export const ProtectedRoute = ({ children, isPublic }: ProtectedRouteProps) => {
   const location = useLocation();
   const user = useAppSelector(userSelectors.selectUser);
   const isAuthChecked = useAppSelector(userSelectors.selectUserCheck);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isAuthChecked) {
+      dispatch(fetchUser());
+    }
+  }, [isAuthChecked, dispatch]);
 
   if (!isAuthChecked) {
     return <Preloader />;

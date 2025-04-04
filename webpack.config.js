@@ -50,7 +50,7 @@ module.exports = {
   plugins: [
     new ESLintPlugin({
       failOnError: true,
-      failOnWarning: false, 
+      failOnWarning: false,
       emitWarning: true,
       extensions: ['.js', '.jsx', '.ts', '.tsx']
     }),
