@@ -1,10 +1,10 @@
 import { ProfileOrdersUI } from '@ui-pages';
 import { FC, useEffect } from 'react';
-import { ingredientsActions } from '../../services/slice/ingredientsSlice';
+import { ingredientsActions } from '../../services/slice/ingredientsSlice/ingredientsSlice';
 import {
   getOrders,
   ordersUserActions
-} from '../../services/slice/profileOrdersSlice';
+} from '../../services/slice/profileOrderSlice/profileOrdersSlice';
 import { useDispatch, useSelector } from '../../services/store';
 
 export const ProfileOrders: FC = () => {

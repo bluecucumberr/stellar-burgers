@@ -21,8 +21,8 @@ import { useDispatch } from '../../services/store';
 import { UnknownAction, Dispatch } from '@reduxjs/toolkit';
 import { TIngredient, TOrder } from '@utils-types';
 import { ThunkDispatch } from 'redux-thunk';
-import { ConstructorState } from 'src/services/slice/burgerConstructorSlice';
-import { UserState } from 'src/services/slice/userSlice';
+import { ConstructorState } from 'src/services/slice/burgerConstructorSlice/burgerConstructorSlice';
+import { UserState } from 'src/services/slice/userSlice/userSlice';
 
 const App = () => {
   const dispatch = useDispatch();

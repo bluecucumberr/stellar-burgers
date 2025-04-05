@@ -1,7 +1,7 @@
 import { Preloader } from '@ui';
 import React, { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { userSelectors } from '../../services/slice/userSlice';
+import { userSelectors } from '../../services/slice/userSlice/userSlice';
 import { useAppSelector, useDispatch } from '../../services/store';
 import { fetchUser } from '../../services/thunks';
 

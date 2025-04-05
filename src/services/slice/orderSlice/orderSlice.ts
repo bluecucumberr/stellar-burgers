@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TOrder } from '../../utils/types';
-import { createOrder, fetchOrderByNumber } from '../thunks';
+import { TOrder } from '../../../utils/types';
+import { createOrder, fetchOrderByNumber } from '../../thunks';
 
 type OrderState = {
   infoOrder: TOrder | null;
@@ -8,7 +8,7 @@ type OrderState = {
   requestStatus: 'idle' | 'loading' | 'success' | 'failed';
 };
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   infoOrder: null,
   newOrder: {} as TOrder,
   requestStatus: 'idle'

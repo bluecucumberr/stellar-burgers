@@ -2,9 +2,12 @@ import { FC, SyntheticEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
-import { feedActions, feedSelectors } from '../../services/slice/feedSlice';
+import {
+  feedActions,
+  feedSelectors
+} from '../../services/slice/feedSlice/feedSlice';
 import { fetchIngredients } from '../../services/thunks';
-import { orderSelectors } from '../../services/slice/orderSlice';
+import { orderSelectors } from '../../services/slice/orderSlice/orderSlice';
 
 export const Feed: FC = () => {
   const dispatch = useDispatch();

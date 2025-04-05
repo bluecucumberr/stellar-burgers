@@ -4,7 +4,7 @@ import { BurgerIngredients } from '../../components';
 import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC, useEffect } from 'react';
-import { ingredientsSelectors } from '../../services/slice/ingredientsSlice';
+import { ingredientsSelectors } from '../../services/slice/ingredientsSlice/ingredientsSlice';
 import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../services/thunks';
 
