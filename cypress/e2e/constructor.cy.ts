@@ -33,8 +33,10 @@ afterEach(() => {
 describe('Burger constructor page', () => {
   describe('Constructor functionality', () => {
     it('allows building a burger from ingredients', () => {
+      cy.get(selectors.constructorItem).should('not.exist');
       fillConstructor();
 
+      cy.get(selectors.constructorItem).should('have.length', 3);
       cy.get(selectors.constructorItem).eq(0).should('contain', '(верх)');
       cy.get(selectors.constructorItem)
         .eq(1)
@@ -45,6 +47,8 @@ describe('Burger constructor page', () => {
 
   describe('Ingredient modal behavior', () => {
     it('opens when ingredient card is clicked', () => {
+      cy.get(selectors.modal).should('not.exist');
+
       cy.get(selectors.bunCard).eq(0).click();
       cy.get(selectors.modal)
         .find('h3')
@@ -53,13 +57,17 @@ describe('Burger constructor page', () => {
 
     it('closes modal by clicking close icon', () => {
       cy.get(selectors.bunCard).eq(0).click();
-      cy.get(selectors.modal).first().find(selectors.closeModalIcon).click();
+      cy.get(selectors.modal)
+        .should('exist')
+        .first()
+        .find(selectors.closeModalIcon)
+        .click();
       cy.get(selectors.modal).should('not.exist');
     });
 
     it('closes modal when clicking overlay', () => {
       cy.get(selectors.bunCard).eq(0).click();
-      cy.get(selectors.modal).as('modal-window');
+      cy.get(selectors.modal).as('modal-window').should('exist');
       cy.get('@modal-window').find('div:nth-child(2)').as('overlay');
       cy.get('@overlay').click({ force: true });
       cy.get('modal-window').should('not.exist');
@@ -68,7 +76,9 @@ describe('Burger constructor page', () => {
 
   describe('Order process', () => {
     it('creates an order and resets constructor', () => {
+      cy.get(selectors.constructorItem).should('not.exist');
       fillConstructor();
+      cy.get(selectors.constructorItem).should('have.length', 3);
 
       cy.get(selectors.orderButton).click();
       cy.get(selectors.modal)
