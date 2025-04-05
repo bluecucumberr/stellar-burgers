@@ -5,10 +5,13 @@ import { useSelector } from '../../services/store';
 import {
   burgerConstructorActions,
   constructorSelectors
-} from '../../services/slice/burgerConstructorSlice';
+} from '../../services/slice/burgerConstructorSlice/burgerConstructorSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
-import { orderActions, orderSelectors } from '../../services/slice/orderSlice';
+import {
+  orderActions,
+  orderSelectors
+} from '../../services/slice/orderSlice/orderSlice';
 import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {

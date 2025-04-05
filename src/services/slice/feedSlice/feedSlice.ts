@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder, TOrdersData } from '@utils-types';
-import { fetchOrders } from '../thunks';
+import { fetchOrders } from '../../thunks';
 
 type FeedState = {
   orders: TOrder[];
@@ -9,7 +9,7 @@ type FeedState = {
   requestStatus: 'idle' | 'loading' | 'success' | 'failed';
 };
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
   orders: [],
   total: 0,
   totalToday: 0,

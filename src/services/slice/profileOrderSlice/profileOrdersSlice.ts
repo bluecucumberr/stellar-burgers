@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { fetchUserOrders } from '../thunks';
+import { fetchUserOrders } from '../../thunks';
 
 type profileOrderState = {
   orders: TOrder[];
   requestStatus: 'idle' | 'loading' | 'success' | 'failed';
 };
 
-const initialState: profileOrderState = {
+export const initialState: profileOrderState = {
   orders: [],
   requestStatus: 'idle'
 };

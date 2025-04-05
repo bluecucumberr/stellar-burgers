@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
 import { RootState } from 'src/services/store';
-import { fetchIngredients } from '../thunks';
+import { fetchIngredients } from '../../thunks';
 
 type IngredientsState = {
   ingredients: TIngredient[];
@@ -9,7 +9,7 @@ type IngredientsState = {
   error: string | null;
 };
 
-const initialState: IngredientsState = {
+export const initialState: IngredientsState = {
   ingredients: [],
   isLoading: false,
   error: null
@@ -34,7 +34,7 @@ export const ingredientsSlice = createSlice({
       )
       .addCase(fetchIngredients.rejected, (state) => {
         state.isLoading = false;
-        state.error = 'Произошла ошибка при загрузке игнредиентов';
+        state.error = 'Произошла ошибка при загрузке ингредиентов';
       });
   }
 });

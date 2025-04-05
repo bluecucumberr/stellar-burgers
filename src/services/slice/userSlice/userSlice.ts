@@ -8,7 +8,7 @@ import {
   registerUser,
   resetPassword,
   updateUser
-} from '../thunks';
+} from '../../thunks';
 
 export interface UserState {
   data: TUser | null;
@@ -17,7 +17,7 @@ export interface UserState {
   error: string | null;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   data: null,
   requestStatus: 'idle',
   isAuthChecked: false,
